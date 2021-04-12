@@ -1,4 +1,5 @@
 import * as jsonfile from "jsonfile";
+import * as find from "lodash/find";
 
 class Contact {
   id: number;
@@ -7,7 +8,7 @@ class Contact {
 
 class ContactsCollection {
   data: Contact[] = [];
-  promesa: Promise<any>;
+
   load() {
     const promesa = jsonfile.readFile("./contacts.json");
     promesa.then((json) => {
@@ -25,11 +26,7 @@ class ContactsCollection {
     jsonfile.writeFile("./contacts.json", this.data);
   }
   getOneById(id) {
-    const encontrado = this.data.find((contacto) => {
-      return contacto.id == id;
-    });
-
-    return encontrado;
+    return find(this.data, { id: id });
   }
 }
 export { ContactsCollection, Contact };
