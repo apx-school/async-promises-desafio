@@ -9,19 +9,26 @@ class ContactsCollection {
   data: Contact[] = [];
   load() {
     // usar la version Async (readFile)
-    const json = jsonfile.readFileSync("./contacts.json");
-    this.data = json;
+    const promesa = jsonfile.readFile("./contacts.json");
+    promesa.then((json) => {
+      this.data = json;
+    });
+    return promesa;
   }
+
   getAll() {
     return this.data;
   }
+
   addOne(contact: Contact) {
     this.data.push(contact);
   }
+
   save() {
     // usar la version Async (writeFIle)
-    jsonfile.writeFileSync("./contacts.json", this.data);
+    jsonfile.writeFIle("./contacts.json", this.data);
   }
+
   getOneById(id) {
     const encontrado = this.data.find((contacto) => {
       if (contacto.id == id) {
