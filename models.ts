@@ -1,4 +1,4 @@
-import * as jsonfile from "jsonfile";
+import * as jsonfile from 'jsonfile';
 
 class Contact {
   id: number;
@@ -9,8 +9,13 @@ class ContactsCollection {
   data: Contact[] = [];
   load() {
     // usar la version Async (readFile)
-    const json = jsonfile.readFileSync("./contacts.json");
-    this.data = json;
+    const promesa = jsonfile.readFile('./contacts.json');
+    promesa.then((json) => {
+      this.data = json;
+      // console.log(this);
+    });
+    // hacer el catch
+    return promesa;
   }
   getAll() {
     return this.data;
@@ -20,7 +25,7 @@ class ContactsCollection {
   }
   save() {
     // usar la version Async (writeFIle)
-    jsonfile.writeFileSync("./contacts.json", this.data);
+    jsonfile.writeFile('./contacts.json', this.data);
   }
   getOneById(id) {
     const encontrado = this.data.find((contacto) => {
