@@ -1,6 +1,6 @@
-import { ContactsCollection } from "./models";
-import { ContactsController, ContactsControllerOptions } from "./controllers";
-import * as minimist from "minimist";
+import { ContactsCollection } from './models';
+import { ContactsController, ContactsControllerOptions } from './controllers';
+import * as minimist from 'minimist';
 
 function parseaParams(argv): ContactsControllerOptions {
   const resultado = minimist(argv);
@@ -13,9 +13,11 @@ function parseaParams(argv): ContactsControllerOptions {
 
 function main() {
   const controller = new ContactsController();
-  const params = parseaParams(process.argv.slice(2));
-  const result = controller.processOptions(params);
-  console.log(result);
+  controller.promesa.then(() => {
+    const params = parseaParams(process.argv.slice(2));
+    const result = controller.processOptions(params);
+    console.log(result);
+  });
 }
 
 main();
