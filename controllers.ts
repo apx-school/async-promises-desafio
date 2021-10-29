@@ -6,10 +6,12 @@ export class ContactsControllerOptions {
 }
 
 class ContactsController {
+  promesa: Promise<any>
   contacts: ContactsCollection;
   constructor() {
     this.contacts = new ContactsCollection();
-    this.contacts.load();
+    const promesa = this.contacts.load();
+    this.promesa = promesa;
   }
   processOptions(options: ContactsControllerOptions) {
     var resultado;
@@ -25,3 +27,5 @@ class ContactsController {
   }
 }
 export { ContactsController };
+
+//Controller, index, model 
