@@ -5,27 +5,26 @@
   "main": "index.ts",
   "scripts": {
     "test": "ava",
-    "start": "ts-node index.ts"
+    "start": "ts-node src/index.ts"
   },
   "ava": {
-    "extensions": {
-      "ts": "module"
-    },
-    "nonSemVerExperiments": {
-      "configurableModuleFormat": true
-    },
-    "nodeArguments": [
-      "--loader=ts-node/esm"
-    ]
+    "typescript": {
+      "compile": "tsc",
+      "rewritePaths": {
+        "src/": "build/"
+      }
+    }
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^14.14.35",
+    "@ava/typescript": "^2.0.0",
+    "@sindresorhus/tsconfig": "^1.0.2",
+    "@types/jsonfile": "^6.1.0",
     "ava": "^3.15.0",
-    "ts-node": "^9.1.1",
-    "typescript": "^4.2.3"
+    "typescript": "^4.3.4",
+    "rimraf": "^3.0.2"
   },
   "dependencies": {
     "jsonfile": "^6.1.0",

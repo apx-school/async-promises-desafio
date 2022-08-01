@@ -1,16 +1,19 @@
 import * as jsonfile from "jsonfile";
 
 class Contact {
-  id: number;
-  name: string;
+  id?: number = undefined;
+  name: string = "";
 }
 
 class ContactsCollection {
   data: Contact[] = [];
   load() {
     // usar la version Async (readFile)
-    const json = jsonfile.readFileSync("./contacts.json");
-    this.data = json;
+    return jsonfile.readFile(__dirname + "/contacts.json").then((c) => {
+      this.data = c;
+      console.log({ c });
+    });
+    // this.data = json;
   }
   getAll() {
     return this.data;
@@ -20,11 +23,11 @@ class ContactsCollection {
   }
   save() {
     // usar la version Async (writeFIle)
-    jsonfile.writeFileSync("./contacts.json", this.data);
+    jsonfile.writeFileSync(__dirname + "/contacts.json", this.data);
   }
   getOneById(id) {
     const encontrado = this.data.find((contacto) => {
-      if (contacto.id == id) {
+      if (contacto?.id == id) {
         return true;
       }
     });

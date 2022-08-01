@@ -1,7 +1,12 @@
 {
+  "extends": "@sindresorhus/tsconfig",
   "compilerOptions": {
-    "target": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true
+    "noUnusedLocals": false,
+    "module": "commonjs",
+    "outDir": "build",
+    "resolveJsonModule": true,
+    "noUnusedParameters": false,
+    "strict": false,
+    "noImplicitReturns": false
   }
 }
