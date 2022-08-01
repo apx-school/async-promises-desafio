@@ -9,11 +9,8 @@ class ContactsCollection {
   data: Contact[] = [];
   load() {
     // usar la version Async (readFile)
-    return jsonfile.readFile(__dirname + "/contacts.json").then((c) => {
-      this.data = c;
-      console.log({ c });
-    });
-    // this.data = json;
+    const json = jsonfile.readFileSync(__dirname + "/contacts.json");
+    this.data = json;
   }
   getAll() {
     return this.data;
