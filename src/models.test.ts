@@ -2,12 +2,17 @@ import test from "ava";
 import { ContactsCollection } from "./models";
 import * as contactsObject from "./contacts.json";
 import * as jsonfile from "jsonfile";
+import { readFileSync } from "fs";
 
 test.serial("Testeo el load del modelo", (t) => {
+  // Instanciamos el modelo
   const model = new ContactsCollection();
-  model.load();
-  t.deepEqual(contactsObject, model.getAll());
-
+  // Usamos el método load, que devuelve un objeto del tipo Promise
+  const dataLoaded = model.load();
+  // Usamos el then de la Promise y comparamos el json con el resultado del método getAll del model
+  return dataLoaded.then(() => {
+    t.deepEqual(contactsObject, model.getAll());
+  })
   // si load() es async, este test tiene que cambiar a:
   // return model.load().then(() => {
   //   t.deepEqual(contactsObject, model.getAll());
@@ -23,22 +28,23 @@ test.serial("Testeo el addOne del modelo", (t) => {
     name: "Marce",
   };
   model.addOne(mockContact);
-  t.deepEqual(model.getAll(), [mockContact]);
+  t.deepEqual(model.getOneById(30), mockContact);
 });
 
 test.serial("Testeo el save del modelo", (t) => {
   const model = new ContactsCollection();
-  // acá también habría que modificar el test
-  // para que contemple el uso de promesas
-  model.load();
-  const mockContact = {
-    id: 30,
-    name: "Marce",
-  };
-  model.addOne(mockContact);
-  model.save();
-  const fileContent = jsonfile.readFileSync(__dirname + "/contacts.json");
-  t.deepEqual(fileContent, model.getAll());
+  // devuelvo esto para que ava espere a que la promesa se resuelva
+  return model.load().then(() => {
+    const mockContact = {
+      id: 26,
+      name: 'Mati'
+    };
+    model.addOne(mockContact);
+    return model.save().then(() => {
+      const json = jsonfile.readFileSync(__dirname + '/contacts.json');
+      t.deepEqual(json, model.getAll());
+    })   
+  })
 });
 
 test.serial("Testeo el getOneById del modelo", (t) => {

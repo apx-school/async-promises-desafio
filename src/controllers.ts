@@ -7,9 +7,14 @@ export class ContactsControllerOptions {
 
 class ContactsController {
   contacts: ContactsCollection;
+  // El tipo Promise en TS viene acompañado de otro tipo que le indica qué otro tipo o clase arroja la rta de la Promesa. Con esto nos alcanza para que el controlador tenga una promesa en sus props
+  promesa: Promise<any>;
   constructor() {
     this.contacts = new ContactsCollection();
-    this.contacts.load();
+    // Recordemos que load() devuelve una promesa, por ende tenemos disponible el método then y catch
+    const promesa = this.contacts.load();
+    // Esta es la promesa que vuelve del json que lo hicimos async y ahora podemos manipularlo desde el index
+    this.promesa = promesa;
   }
   processOptions(options: ContactsControllerOptions) {
     var resultado;
