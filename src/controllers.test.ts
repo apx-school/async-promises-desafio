@@ -1,9 +1,11 @@
 import test from "ava";
-import { ContactsController } from "./controllers";
+import { ContactsControllerOptions, ContactsController  } from "./controllers";
+import { Contact, ContactsCollection } from "./models";
 
 test("Testeo el constructor del controller", (t) => {
-  // test de prueba
-  t.truthy(true);
+  const controller = new ContactsController();
+  t.truthy(controller.contacts && controller.promesa);
 });
 
-// test("Testeo el método processOptions", (t) => {});
+/* test("Testeo el método processOptions", (t) => {
+}); */
