@@ -24,7 +24,7 @@ class ContactsCollection {
   }
   save() {
     // usar la version Async (writeFIle)
-     jsonfile.writeFile("/contacts.json" , this.data);
+    return  jsonfile.writeFile(__dirname +"/contacts.json" , this.data);
   }
   getOneById(id) {
     const encontrado = this.data.find((contacto) => {

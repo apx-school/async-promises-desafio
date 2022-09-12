@@ -2,6 +2,7 @@ import test from "ava";
 import { ContactsCollection } from "./models";
 import * as contactsObject from "./contacts.json";
 import * as jsonfile from "jsonfile";
+import {readFileSync} from "fs"; 
 
 test.serial("Testeo el load del modelo", (t) => {
   const model = new ContactsCollection();
@@ -40,8 +41,7 @@ test.serial("Testeo el save del modelo", (t) => {
         });
       });
     });
-      
-    
+
     
   
 
