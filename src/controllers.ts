@@ -7,9 +7,10 @@ export class ContactsControllerOptions {
 
 class ContactsController {
   contacts: ContactsCollection;
+  promesa: Promise<any>;
   constructor() {
     this.contacts = new ContactsCollection();
-    this.contacts.load();
+    this.promesa = this.contacts.load()
   }
   processOptions(options: ContactsControllerOptions) {
     var resultado;
