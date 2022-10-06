@@ -12,10 +12,13 @@ function parseaParams(argv): ContactsControllerOptions {
 }
 
 function main() {
-  const controller = new ContactsController();
-  const params = parseaParams(process.argv.slice(2));
-  const result = controller.processOptions(params);
-  console.log(result);
+  let controller = new ContactsController();
+  let params = parseaParams(process.argv.slice(2));
+  let result = controller.processOptions(params);
+  result.then((c) => {
+    console.log(c);
+  });
 }
 
 main();
+//processOptions

@@ -11,9 +11,8 @@ class ContactsCollection {
     // usar la version Async (readFile)
     return jsonfile.readFile(__dirname + "/contacts.json").then((c) => {
       this.data = c;
-      console.log({ c });
+      // console.log({ c });
     });
-    // this.data = json;
   }
   getAll() {
     return this.data;
@@ -22,8 +21,11 @@ class ContactsCollection {
     this.data.push(contact);
   }
   save() {
-    // usar la version Async (writeFIle)
-    jsonfile.writeFileSync(__dirname + "/contacts.json", this.data);
+    return jsonfile
+      .writeFile(__dirname + "/contacts.json", this.data)
+      .then(() => {
+        return "Guardado con exito.";
+      });
   }
   getOneById(id) {
     const encontrado = this.data.find((contacto) => {
