@@ -21,7 +21,9 @@ class ContactsCollection {
   }
   addOne(contact: Contact) {
     this.data.push(contact);
-    this.save();
+    this.save().then((newFile) => {
+      return newFile;
+    });
   }
   save() {
     // usar la version Async (writeFIle)

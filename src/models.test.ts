@@ -24,8 +24,8 @@ test.serial("Testeo el addOne del modelo", (t) => {
       name: "Marce",
     };
     model.addOne(mockContact);
-    return jsonfile.readFile(__dirname + "/contacts.json").then((newFile) => {
-      t.deepEqual(model.getAll(), newFile);
+    return jsonfile.readFile(__dirname + "/contacts.json").then((file) => {
+      t.deepEqual(model.getAll(), file);
     });
   });
 });
