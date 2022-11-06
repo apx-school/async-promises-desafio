@@ -15,6 +15,11 @@ test("Testeo el método processOptions", (t) => {
   const testMock = new ContactsController();
 
   return testMock.promise.then(() => {
+    // const paramsOne = { id: 4, name: "Dana" };
+    // const processOne = testMock.processOptions({
+    //   action: "get",
+    //   params: paramsOne,
+    // });
     const paramsTwo = { name: "Franco" };
     const processTwo = testMock.processOptions({
       action: "get",
@@ -22,6 +27,7 @@ test("Testeo el método processOptions", (t) => {
     });
     return jsonfile.readFile(__dirname + "/contacts.json").then((contactos) => {
       t.deepEqual(processTwo, contactos);
+      // t.deepEqual(paramsOne, processOne);
     });
   });
 });
