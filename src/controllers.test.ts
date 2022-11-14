@@ -9,6 +9,7 @@ test("Testeo el constructor del controller", (t) => {
   return respuesta;
 });
 
+/*
 test("Testeo el método processOptions", (t) => {
   const controller = new ContactsController();
   const opciones: ContactsControllerOptions = {
@@ -18,6 +19,9 @@ test("Testeo el método processOptions", (t) => {
   const resultado = controller.processOptions(opciones);
   t.deepEqual(resultado, { id: 1, name: "Ana" });
 });
+*/
+
+
 // test("Testeo el método processOptions", (t) => {
 //   const controller = new ContactsController();
 //   controller.promesa.then(() => {
