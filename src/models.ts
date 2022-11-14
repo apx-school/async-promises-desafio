@@ -8,12 +8,11 @@ class Contact {
 class ContactsCollection {
   data: Contact[] = [];
   load() {
-    // usar la version Async (readFile)
-    return jsonfile.readFile(__dirname + "/contacts.json").then((c) => {
-      this.data = c;
-      console.log({ c });
+    const promesa = jsonfile.readFile(__dirname + "/contacts.json");
+    promesa.then((item) => {
+      this.data = item;
     });
-    // this.data = json;
+    return promesa;
   }
   getAll() {
     return this.data;
@@ -22,17 +21,14 @@ class ContactsCollection {
     this.data.push(contact);
   }
   save() {
-    // usar la version Async (writeFIle)
-    jsonfile.writeFileSync(__dirname + "/contacts.json", this.data);
+    const promesa = jsonfile.writeFile(__dirname + "/contacts.json", this.data);
+    promesa.then((respuesta) => {
+      console.log(respuesta);
+    });
+    return promesa;
   }
   getOneById(id) {
-    const encontrado = this.data.find((contacto) => {
-      if (contacto?.id == id) {
-        return true;
-      }
-    });
-
-    return encontrado;
+    return this.data.find((item) => item.id == id);
   }
 }
 export { ContactsCollection, Contact };
