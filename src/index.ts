@@ -3,7 +3,7 @@ import { ContactsController, ContactsControllerOptions } from "./controllers";
 import * as minimist from "minimist";
 
 function parseaParams(argv): ContactsControllerOptions {
-  const resultado = minimist(argv);
+  const resultado = minimist(argv.slice(2));
 
   return {
     action: resultado.action,
@@ -13,9 +13,9 @@ function parseaParams(argv): ContactsControllerOptions {
 
 function main() {
   const controller = new ContactsController();
-  const params = parseaParams(process.argv.slice(2));
-  const result = controller.processOptions(params);
-  console.log(result);
+  const options = parseaParams(process.argv);
+  controller.processOptions(options).then((result) => 
+  console.log(result))
 }
 
 main();
