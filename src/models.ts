@@ -9,8 +9,11 @@ class ContactsCollection {
   data: Contact[] = [];
   load() {
     // usar la version Async (readFile)
-    const json = jsonfile.readFileSync(__dirname + "/contacts.json");
-    this.data = json;
+    const firstPromise = jsonfile.readFile(__dirname + "/contacts.json");
+    firstPromise.then((json) => {
+      this.data = json;
+    });
+    return firstPromise;
   }
   getAll() {
     return this.data;
@@ -20,7 +23,14 @@ class ContactsCollection {
   }
   save() {
     // usar la version Async (writeFIle)
-    jsonfile.writeFileSync(__dirname + "/contacts.json", this.data);
+    const secondPromise = jsonfile.writeFile(
+      __dirname + "/contacts.json",
+      this.data
+    );
+    secondPromise.then((save) => {
+      return save;
+    });
+    return secondPromise;
   }
   getOneById(id) {
     const encontrado = this.data.find((contacto) => {
