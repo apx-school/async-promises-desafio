@@ -5,8 +5,10 @@ import * as jsonfile from "jsonfile";
 
 test("Testeo el load del modelo", (t) => {
   const model = new ContactsCollection();
-  model.load();
-  t.deepEqual(contactsObject, model.getAll());
+ return model.load().then(()=>{
+    t.deepEqual(contactsObject, model.getAll());
+  })
+  
 });
 
 test("Testeo el addOne del modelo", (t) => {
@@ -21,15 +23,18 @@ test("Testeo el addOne del modelo", (t) => {
 
 test("Testeo el save del modelo", (t) => {
   const model = new ContactsCollection();
-  model.load();
+ return model.load().then(()=>{
   const mockContact = {
     id: 30,
     name: "Marce",
   };
   model.addOne(mockContact);
-  model.save();
+  return model.save().then(()=>{;
   const fileContent = jsonfile.readFileSync("./contacts.json");
   t.deepEqual(fileContent, model.getAll());
+  })
+});
+
 });
 
 test("Testeo el getOneById del modelo", (t) => {

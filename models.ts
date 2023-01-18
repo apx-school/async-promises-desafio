@@ -9,8 +9,15 @@ class ContactsCollection {
   data: Contact[] = [];
   load() {
     // usar la version Async (readFile)
-    const json = jsonfile.readFileSync("./contacts.json");
-    this.data = json;
+//     const jsonfile = require('jsonfile')
+// const archivoALeer = "./contacts.json"
+const archivoLeido = jsonfile.readFile("./contacts.json")
+//.then(obj => console.dir(obj))
+//archivoLeido.catch(error => console.error(error))
+    // const json = jsonfile.readFileSync("./contacts.json");
+   archivoLeido.then((json)=>
+   this.data=json)
+   return archivoLeido
   }
   getAll() {
     return this.data;
@@ -20,16 +27,24 @@ class ContactsCollection {
   }
   save() {
     // usar la version Async (writeFIle)
-    jsonfile.writeFileSync("./contacts.json", this.data);
+//     const jsonfile = require('jsonfile')
+ 
+// const file = "./contacts.json"
+// const obj = { name: 'JP' }
+ 
+// jsonfile.writeFile(file, obj)
+//   .then(res => {
+//     console.log('Write complete')
+//   })
+//   .catch(error => console.error(error))
+    return jsonfile.writeFile("./contacts.json", this.data);
   }
   getOneById(id) {
-    const encontrado = this.data.find((contacto) => {
-      if (contacto.id == id) {
-        return true;
-      }
-    });
-
-    return encontrado;
-  }
+     const encontrado = this.data.find((contacto) => { 
+       return contacto.id == id}
+       )
+       return encontrado
 }
-export { ContactsCollection, Contact };
+}
+  
+export { ContactsCollection, Contact }
