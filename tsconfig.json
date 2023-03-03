@@ -1,6 +1,8 @@
 {
   "extends": "@sindresorhus/tsconfig",
   "compilerOptions": {
+    "target": "esnext",
+    "moduleResolution": "node",
     "noUnusedLocals": false,
     "module": "commonjs",
     "outDir": "build",
