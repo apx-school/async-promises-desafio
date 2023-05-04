@@ -1,18 +1,20 @@
 import { ContactsCollection, Contact } from "./models";
 
-export class ContactsControllerOptions {
+class ContactsControllerOptions {
   action: "get" | "save";
   params: Contact;
 }
 
 class ContactsController {
   contacts: ContactsCollection;
+  promesa: Promise<any>;
   constructor() {
     this.contacts = new ContactsCollection();
-    this.contacts.load();
+    const promise = this.contacts.load();
+    this.promesa = promise;
   }
   processOptions(options: ContactsControllerOptions) {
-    var resultado;
+    let resultado;
     if (options.action == "get" && options.params.id) {
       resultado = this.contacts.getOneById(options.params.id);
     } else if (options.action == "get") {
@@ -24,4 +26,4 @@ class ContactsController {
     return resultado;
   }
 }
-export { ContactsController };
+export { ContactsController, ContactsControllerOptions };

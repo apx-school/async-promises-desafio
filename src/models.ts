@@ -7,9 +7,10 @@ class Contact {
 
 class ContactsCollection {
   data: Contact[] = [];
-  load() {
+  async load() {
     // usar la version Async (readFile)
-    const json = jsonfile.readFileSync(__dirname + "/contacts.json");
+    const prom = jsonfile.readFile(__dirname + "/contacts.json");
+    const json = await prom;
     this.data = json;
   }
   getAll() {
@@ -20,7 +21,7 @@ class ContactsCollection {
   }
   save() {
     // usar la version Async (writeFIle)
-    jsonfile.writeFileSync(__dirname + "/contacts.json", this.data);
+    return jsonfile.writeFile(__dirname + "/contacts.json", this.data);
   }
   getOneById(id) {
     const encontrado = this.data.find((contacto) => {
@@ -28,7 +29,6 @@ class ContactsCollection {
         return true;
       }
     });
-
     return encontrado;
   }
 }
