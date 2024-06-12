@@ -1,7 +1,7 @@
 {
   "name": "test-ava",
   "version": "1.0.0",
-  "description": "",
+  "description": "- Forkear y clonar este repo",
   "main": "index.ts",
   "scripts": {
     "test": "ava",

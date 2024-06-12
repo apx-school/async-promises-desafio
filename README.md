@@ -7,3 +7,6 @@
 - Modificar los tests para que soporten los nuevos métodos asincrónicos
 
 - Todo el código está en /src
+
+
+AVISO IMPORTANTE: NO ME CORRE NINGUN TETS, LO PODES EXPLICAR???
