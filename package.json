@@ -8,6 +8,7 @@
     "start": "ts-node src/index.ts"
   },
   "ava": {
+    "serial": true,
     "typescript": {
       "compile": "tsc",
       "rewritePaths": {
