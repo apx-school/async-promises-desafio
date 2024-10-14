@@ -7,6 +7,7 @@
     "resolveJsonModule": true,
     "noUnusedParameters": false,
     "strict": false,
-    "noImplicitReturns": false
+    "noImplicitReturns": false,
+    "target": "ESNext"
   }
 }
