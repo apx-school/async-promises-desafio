@@ -1,19 +1,12 @@
 import test from "ava";
 import { ContactsCollection } from "./models";
 import * as contactsObject from "./contacts.json";
-import * as jsonfile from "jsonfile";
+import { readFile } from "fs/promises";
 
-test.serial("Testeo el load del modelo", (t) => {
+test.serial("Testeo el load del modelo", async (t) => {
   const model = new ContactsCollection();
-  model.load();
+  await model.load();
   t.deepEqual(contactsObject, model.getAll());
-
-  // si load() es async, este test tiene que cambiar a:
-  // return model.load().then(() => {
-  //   t.deepEqual(contactsObject, model.getAll());
-  // });
-
-  // esto espera a que la promesa se resuelva y corre el test
 });
 
 test.serial("Testeo el addOne del modelo", (t) => {
@@ -26,23 +19,24 @@ test.serial("Testeo el addOne del modelo", (t) => {
   t.deepEqual(model.getAll(), [mockContact]);
 });
 
-test.serial("Testeo el save del modelo", (t) => {
+test.serial("Testeo el save del modelo", async (t) => {
   const model = new ContactsCollection();
-  // acá también habría que modificar el test
-  // para que contemple el uso de promesas
-  model.load();
+  await model.load(); // Aseguramos que los datos se carguen antes de guardar
   const mockContact = {
     id: 30,
     name: "Marce",
   };
   model.addOne(mockContact);
-  model.save();
-  const fileContent = jsonfile.readFileSync(__dirname + "/contacts.json");
+  await model.save(); // Guardar el nuevo contacto
+
+  // Leer el contenido del archivo actualizado para verificar el guardado
+  const fileContent = JSON.parse(await readFile(__dirname + "/contacts.json", "utf-8"));
   t.deepEqual(fileContent, model.getAll());
 });
 
-test.serial("Testeo el getOneById del modelo", (t) => {
+test.serial("Testeo el getOneById del modelo", async (t) => {
   const model = new ContactsCollection();
+  await model.load(); // Cargamos datos antes de usar `getOneById`
   const mockContact = {
     id: 31,
     name: "Marce",

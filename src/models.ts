@@ -1,4 +1,5 @@
-import * as jsonfile from "jsonfile";
+import "./contacts.json";
+import { readFile, writeFile } from "fs/promises";
 
 class Contact {
   id?: number = undefined;
@@ -7,29 +8,35 @@ class Contact {
 
 class ContactsCollection {
   data: Contact[] = [];
-  load() {
-    // usar la version Async (readFile)
-    const json = jsonfile.readFileSync(__dirname + "/contacts.json");
-    this.data = json;
+
+  async load() {
+    try {
+      const json = await readFile(__dirname + "\\contacts.json", "utf-8");
+      this.data = JSON.parse(json);
+    } catch (error) {
+      console.error("Error loading contacts:", error);
+    }
   }
+
   getAll() {
     return this.data;
   }
+
   addOne(contact: Contact) {
     this.data.push(contact);
   }
-  save() {
-    // usar la version Async (writeFIle)
-    jsonfile.writeFileSync(__dirname + "/contacts.json", this.data);
-  }
-  getOneById(id) {
-    const encontrado = this.data.find((contacto) => {
-      if (contacto?.id == id) {
-        return true;
-      }
-    });
 
-    return encontrado;
+  async save() {
+    try {
+      await writeFile(__dirname + "\\contacts.json", JSON.stringify(this.data, null, 2));
+    } catch (error) {
+      console.error("Error saving contacts:", error);
+    }
+  }
+
+  getOneById(id: number) {
+    return this.data.find((contact) => contact?.id === id);
   }
 }
+
 export { ContactsCollection, Contact };
