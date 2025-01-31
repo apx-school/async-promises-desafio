@@ -2,14 +2,16 @@ import { ContactsCollection, Contact } from "./models";
 
 export class ContactsControllerOptions {
   action: "get" | "save";
-  params: Contact;
+  params: any;
 }
 
 class ContactsController {
   contacts: ContactsCollection;
+  promesa: Promise<any>;
   constructor() {
     this.contacts = new ContactsCollection();
-    this.contacts.load();
+    const promesa = this.contacts.load(); //El controlador se guarda la promesa, no la lista de contactos
+    this.promesa = promesa;
   }
   processOptions(options: ContactsControllerOptions) {
     var resultado;
@@ -19,7 +21,12 @@ class ContactsController {
       resultado = this.contacts.getAll();
     } else if (options.action == "save" && options.params) {
       this.contacts.addOne(options.params);
-      this.contacts.save();
+      return this.contacts.save().then(() => {
+        return this.contacts.load().then((contactosActualizados) => {
+            resultado = contactosActualizados
+        }); //actualizo la collection de contactos
+      });
+      
     }
     return resultado;
   }
