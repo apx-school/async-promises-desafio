@@ -7,21 +7,32 @@ export class ContactsControllerOptions {
 
 class ContactsController {
   contacts: ContactsCollection;
+  promesa: Promise<any>;
+
   constructor() {
     this.contacts = new ContactsCollection();
-    this.contacts.load();
+    this.promesa = this.contacts.load();
   }
+
   processOptions(options: ContactsControllerOptions) {
-    var resultado;
-    if (options.action == "get" && options.params.id) {
-      resultado = this.contacts.getOneById(options.params.id);
-    } else if (options.action == "get") {
-      resultado = this.contacts.getAll();
-    } else if (options.action == "save" && options.params) {
+    let resultado;
+    if (options.action === "get") {
+      if (options.params && options.params.id) {
+        resultado = this.contacts.getOneById(options.params.id);
+      } else {
+        resultado = this.contacts.getAll();
+      }
+    } else if (options.action === "save" && options.params) {
+      // console.log("Agregando contacto:", options.params); // Verifica que el contacto se esté agregando
       this.contacts.addOne(options.params);
-      this.contacts.save();
+      return this.contacts.save().then(() => {
+        return this.contacts.load().then((contactosActualizados) => {
+          // console.log("Contactos actualizados:", contactosActualizados); // Verifica qué contactos se están cargando
+          return contactosActualizados; // Retornar el resultado aquí
+        });
+      });
     }
-    return resultado;
+    return Promise.resolve(resultado);
   }
 }
 export { ContactsController };
