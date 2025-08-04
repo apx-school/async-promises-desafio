@@ -7,15 +7,18 @@ function parseaParams(argv): ContactsControllerOptions {
 
   return {
     action: resultado.action,
-    params: JSON.parse(resultado.params),
+    params: typeof resultado.params == "string" ? JSON.parse(resultado.params) : resultado.params,
   };
 }
 
 function main() {
   const controller = new ContactsController();
-  const params = parseaParams(process.argv.slice(2));
-  const result = controller.processOptions(params);
-  console.log(result);
+  console.log(controller.promesa.then(() => {
+    const params = parseaParams(process.argv.slice(2));
+    const result = controller.processOptions(params);
+    console.log(result);
+  }));
+  
 }
 
 main();
