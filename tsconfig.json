@@ -5,6 +5,7 @@
     "module": "commonjs",
     "outDir": "build",
     "resolveJsonModule": true,
+    "esModuleInterop": true,
     "noUnusedParameters": false,
     "strict": false,
     "noImplicitReturns": false

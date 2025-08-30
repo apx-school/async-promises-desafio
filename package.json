@@ -13,7 +13,10 @@
       "rewritePaths": {
         "src/": "build/"
       }
-    }
+    },
+    "files": [
+      "src/**/*.test.ts"
+    ]
   },
   "keywords": [],
   "author": "",
