@@ -7,11 +7,13 @@ export class ContactsControllerOptions {
 
 class ContactsController {
   contacts: ContactsCollection;
+  promesa: Promise<any>;
   constructor() {
     this.contacts = new ContactsCollection();
-    this.contacts.load();
+    const promesa = this.contacts.load();
+    this.promesa = promesa;
   }
-  processOptions(options: ContactsControllerOptions) {
+  processOptions(options: ContactsControllerOptions): Promise<any> {
     var resultado;
     if (options.action == "get" && options.params.id) {
       resultado = this.contacts.getOneById(options.params.id);
@@ -19,9 +21,14 @@ class ContactsController {
       resultado = this.contacts.getAll();
     } else if (options.action == "save" && options.params) {
       this.contacts.addOne(options.params);
-      this.contacts.save();
+      this.contacts.save().then(() => {
+        console.log("Contacto guardado exitosamente");
+        return options.params;
+      }).catch((error) => {
+        console.error("Error al guardar el contacto:", error);
+      });
     }
-    return resultado;
+    return Promise.resolve(resultado);
   }
 }
 export { ContactsController };
