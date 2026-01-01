@@ -7,11 +7,19 @@ export class ContactsControllerOptions {
 
 class ContactsController {
   contacts: ContactsCollection;
+  cargador: boolean;
   constructor() {
     this.contacts = new ContactsCollection();
-    this.contacts.load();
+    this.cargador = false;
   }
-  processOptions(options: ContactsControllerOptions) {
+  async cargadorDeContacts() {
+    await this.contacts.load();
+    this.cargador = true;
+  }
+  async processOptions(options: ContactsControllerOptions) {
+    if (!this.cargador) {
+      await this.cargadorDeContacts();
+    }
     var resultado;
     if (options.action == "get" && options.params.id) {
       resultado = this.contacts.getOneById(options.params.id);
@@ -19,7 +27,7 @@ class ContactsController {
       resultado = this.contacts.getAll();
     } else if (options.action == "save" && options.params) {
       this.contacts.addOne(options.params);
-      this.contacts.save();
+      await this.contacts.save();
     }
     return resultado;
   }

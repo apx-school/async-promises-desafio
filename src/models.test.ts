@@ -5,15 +5,9 @@ import * as jsonfile from "jsonfile";
 
 test.serial("Testeo el load del modelo", (t) => {
   const model = new ContactsCollection();
-  model.load();
-  t.deepEqual(contactsObject, model.getAll());
-
-  // si load() es async, este test tiene que cambiar a:
-  // return model.load().then(() => {
-  //   t.deepEqual(contactsObject, model.getAll());
-  // });
-
-  // esto espera a que la promesa se resuelva y corre el test
+  return model.load().then(() => {
+    t.deepEqual(contactsObject, model.getAll());
+  });
 });
 
 test.serial("Testeo el addOne del modelo", (t) => {
@@ -26,17 +20,15 @@ test.serial("Testeo el addOne del modelo", (t) => {
   t.deepEqual(model.getAll(), [mockContact]);
 });
 
-test.serial("Testeo el save del modelo", (t) => {
+test.serial("Testeo el save del modelo", async (t) => {
   const model = new ContactsCollection();
-  // acá también habría que modificar el test
-  // para que contemple el uso de promesas
-  model.load();
+  await model.load();
   const mockContact = {
     id: 30,
     name: "Marce",
   };
   model.addOne(mockContact);
-  model.save();
+  await model.save();
   const fileContent = jsonfile.readFileSync(__dirname + "/contacts.json");
   t.deepEqual(fileContent, model.getAll());
 });
