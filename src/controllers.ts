@@ -5,23 +5,29 @@ export class ContactsControllerOptions {
   params: Contact;
 }
 
-class ContactsController {
+class ContactsController{
   contacts: ContactsCollection;
+  initPromise: Promise<any>;
+
   constructor() {
     this.contacts = new ContactsCollection();
-    this.contacts.load();
+    this.initPromise = this.contacts.load();
   }
-  processOptions(options: ContactsControllerOptions) {
-    var resultado;
+
+ processOptions(options: ContactsControllerOptions): Promise<any> {
+  return this.initPromise.then(() => {
     if (options.action == "get" && options.params.id) {
-      resultado = this.contacts.getOneById(options.params.id);
+      return this.contacts.getOneById(options.params.id);
     } else if (options.action == "get") {
-      resultado = this.contacts.getAll();
+      return this.contacts.getAll();
     } else if (options.action == "save" && options.params) {
       this.contacts.addOne(options.params);
-      this.contacts.save();
+
+      return this.contacts.save().then(() => {
+        return options.params;
+      });
     }
-    return resultado;
-  }
+  });
+}
 }
 export { ContactsController };
